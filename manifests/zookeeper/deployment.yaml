@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zookeeper-deployment
+  labels:
+    app: zookeeper-deployment
+  namespace: kafka-demo
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: zookeeper
+      tag: confluent
+  template:
+    metadata:
+      labels:
+        app: zookeeper
+        tag: confluent
+    spec:
+      containers:
+      - name: zookeeper
+        image: confluentinc/cp-zookeeper:5.2.1
+        ports:
+        - containerPort: 2181

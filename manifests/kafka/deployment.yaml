@@ -1,0 +1,28 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kafka-deployment
+  labels:
+    app: kafka-deployment
+  namespace: kafka-demo
+
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kafka
+      tag: confluent
+  template:
+    metadata:
+      labels:
+        app: kafka
+        tag: confluent
+    spec:
+      containers:
+      - name: kafka
+        image: confluentinc/cp-enterprise-kafka:5.2.1
+        ports:
+        - containerPort: 9092
+        envFrom:
+          - configMapRef:
+              name: kafka-configmap
